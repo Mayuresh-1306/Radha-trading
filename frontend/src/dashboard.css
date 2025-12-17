@@ -1,0 +1,146 @@
+/* Dashboard Specific Styles */
+
+.dashboard-container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+/* Sidebar styling */
+.sidebar {
+  position: fixed;
+  top: 56px; /* Height of navbar */
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  padding: 48px 0 0;
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+  overflow-y: auto;
+}
+
+.sidebar .nav-link {
+  font-weight: 500;
+  color: #333;
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+}
+
+.sidebar .nav-link:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.sidebar .nav-link.active {
+  background-color: #0d6efd;
+  color: white;
+}
+
+/* Main content area */
+main {
+  padding-top: 1.5rem;
+}
+
+/* Card styling */
+.card {
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 0.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+
+/* Table styling */
+.table th {
+  border-top: none;
+  font-weight: 600;
+  color: #6c757d;
+}
+
+/* Live Update Pulse */
+.pulse-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #198754;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(25, 135, 84, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(25, 135, 84, 0);
+  }
+}
+
+/* Trading Widget */
+.trading-widget .btn-group .btn {
+  padding: 0.5rem 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 767.98px) {
+  .sidebar {
+    position: static;
+    height: auto;
+    padding-top: 0;
+  }
+  
+  main {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .display-4 {
+    font-size: 2rem;
+  }
+  
+  .btn-lg {
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* Animation for success/error messages */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.alert {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Progress bar */
+.progress {
+  background-color: #e9ecef;
+  border-radius: 10px;
+}
+
+.progress-bar {
+  border-radius: 10px;
+}
+
+/* Hover effects */
+.hover-pointer {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.hover-pointer:hover {
+  background-color: #f8f9fa;
+}

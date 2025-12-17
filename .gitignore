@@ -1,0 +1,24 @@
+# Dependencies 
+node_modules/ 
+ECHO is on.
+# Logs 
+*.log 
+npm-debug.log* 
+yarn-debug.log* 
+yarn-error.log* 
+ECHO is on.
+# Environment 
+.env 
+.env.local 
+ECHO is on.
+# Build 
+dist/ 
+dist-ssr/ 
+ECHO is on.
+# Editor 
+.vscode/ 
+.idea/ 
+.DS_Store 
+ECHO is on.
+# Package locks 
+package-lock.json 
