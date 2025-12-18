@@ -22,6 +22,7 @@ const app = express();
 app.use(cors({
     origin: [
         'http://localhost:3000', // For local development
+         'http://localhost:5173', 
         'https://radha-trading-frontend.onrender.com' // Your future frontend on Render
         // Add other domains if needed (e.g., custom domain)
     ],
