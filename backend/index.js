@@ -19,7 +19,16 @@ const uri = process.env.MONGO_URL;
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: [
+        'http://localhost:3000', // For local development
+        'https://radha-trading-frontend.onrender.com' // Your future frontend on Render
+        // Add other domains if needed (e.g., custom domain)
+    ],
+    credentials: true, // Allows cookies/auth headers if you use them
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Explicitly allowed methods
+    allowedHeaders: ['Content-Type', 'Authorization'] // Explicitly allowed headers
+}));
 app.use(bodyParser.json());
 
 // =========================================================================
