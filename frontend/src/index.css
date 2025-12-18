@@ -1,3 +1,49 @@
+@media (max-width: 768px) {
+  /* Nuclear option: Force ALL containers to be mobile-friendly */
+  * {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+  }
+  
+  /* Fix ALL Bootstrap grid issues */
+  .row {
+    display: block !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  
+  .row > * {
+    display: block !important;
+    width: 100% !important;
+    float: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  
+  /* Fix columns */
+  [class*="col-"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
+  }
+  
+  /* Stack flex containers */
+  .d-flex {
+    flex-direction: column !important;
+  }
+  
+  /* Make sure nothing overflows */
+  .container, .container-fluid {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    width: 100% !important;
+  }
+}
 /* Add these styles to your existing index.css */
 
 /* Hero section gradient */
