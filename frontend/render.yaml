@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: radha-trading-frontend
+    env: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm run preview
+    envVars:
+      - key: VITE_API_URL
+        value: https://radha-trading.onrender.com
+    healthCheckPath: /
+    autoDeploy: true
