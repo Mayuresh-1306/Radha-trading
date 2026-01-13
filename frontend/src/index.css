@@ -1,23 +1,24 @@
 @media (max-width: 768px) {
-  /* Nuclear option: Force ALL containers to be mobile-friendly */
-  * {
+  /* ===== MOBILE FIXES FOR NON-DASHBOARD PAGES ===== */
+  /* Apply mobile fixes to everything EXCEPT .no-mobile-fix and its children */
+  *:not(.no-mobile-fix):not(.no-mobile-fix *) {
     max-width: 100% !important;
     box-sizing: border-box !important;
   }
   
-  body {
+  body:not(.no-mobile-fix) {
     overflow-x: hidden !important;
     width: 100% !important;
   }
   
-  /* Fix ALL Bootstrap grid issues */
-  .row {
+  /* Fix Bootstrap grid issues EXCEPT for dashboard */
+  .row:not(.no-mobile-fix):not(.no-mobile-fix .row) {
     display: block !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
   }
   
-  .row > * {
+  .row:not(.no-mobile-fix) > *:not(.no-mobile-fix) {
     display: block !important;
     width: 100% !important;
     float: none !important;
@@ -25,23 +26,47 @@
     margin-right: 0 !important;
   }
   
-  /* Fix columns */
-  [class*="col-"] {
+  /* Fix columns EXCEPT in dashboard */
+  [class*="col-"]:not(.no-mobile-fix):not(.no-mobile-fix [class*="col-"]) {
     width: 100% !important;
     max-width: 100% !important;
     flex: none !important;
   }
   
-  /* Stack flex containers */
-  .d-flex {
+  /* Stack flex containers EXCEPT dashboard */
+  .d-flex:not(.no-mobile-fix):not(.no-mobile-fix .d-flex) {
     flex-direction: column !important;
   }
   
-  /* Make sure nothing overflows */
-  .container, .container-fluid {
+  /* Make sure nothing overflows EXCEPT dashboard */
+  .container:not(.no-mobile-fix), 
+  .container-fluid:not(.no-mobile-fix) {
     padding-left: 15px !important;
     padding-right: 15px !important;
     width: 100% !important;
+  }
+  
+  /* ===== REST OF YOUR EXISTING CSS BELOW ===== */
+  /* Your existing responsive fixes will now only apply to non-dashboard pages */
+  .display-4 {
+    font-size: 2.5rem;
+  }
+  
+  .btn-lg {
+    padding: 0.5rem 1.5rem;
+  }
+  
+  .pricing-page .display-3 {
+    font-size: 2.5rem;
+  }
+  
+  .pricing-page .btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .pricing-page .table-responsive {
+    font-size: 0.9rem;
   }
 }
 /* Add these styles to your existing index.css */
@@ -269,4 +294,17 @@
 
 .btn-primary:hover {
   background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+/* ===== SIMPLE DASHBOARD MOBILE RESTORE ===== */
+@media (max-width: 768px) {
+  .dashboard-container, .dashboard-main, .app-wrapper,
+  .dashboard-container *, .dashboard-main *, .app-wrapper * {
+    max-width: none !important;
+    box-sizing: content-box !important;
+  }
+  .dashboard-container .row, .dashboard-main .row { display: flex !important; }
+  .dashboard-container [class*="col-"], .dashboard-main [class*="col-"] { width: auto !important; }
+  .sidebar { position: fixed !important; width: 250px !important; }
+  main.dashboard-main { margin-left: 250px !important; }
 }
