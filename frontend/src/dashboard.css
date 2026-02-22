@@ -1,20 +1,24 @@
-/* Dashboard Specific Styles */
+/* ══════════════════════════════════════════════
+   Dashboard Specific Styles — Root src copy
+   ══════════════════════════════════════════════ */
 
 .dashboard-container {
   min-height: 100vh;
   background-color: #f8f9fa;
 }
 
-/* Sidebar styling */
+/* ── Sidebar ── */
 .sidebar {
   position: fixed;
-  top: 56px; /* Height of navbar */
+  top: 56px;
+  /* Height of navbar */
   bottom: 0;
   left: 0;
   z-index: 100;
   padding: 48px 0 0;
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
   overflow-y: auto;
+  transition: transform 0.3s ease;
 }
 
 .sidebar .nav-link {
@@ -39,26 +43,26 @@ main {
   padding-top: 1.5rem;
 }
 
-/* Card styling */
+/* ── Card styling ── */
 .card {
-  border: 1px solid rgba(0,0,0,.125);
+  border: 1px solid rgba(0, 0, 0, .125);
   border-radius: 0.5rem;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
 }
 
-/* Table styling */
+/* ── Table styling ── */
 .table th {
   border-top: none;
   font-weight: 600;
   color: #6c757d;
 }
 
-/* Live Update Pulse */
+/* ── Live Update Pulse ── */
 .pulse-dot {
   width: 10px;
   height: 10px;
@@ -72,49 +76,157 @@ main {
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.7);
   }
+
   70% {
     transform: scale(1);
     box-shadow: 0 0 0 10px rgba(25, 135, 84, 0);
   }
+
   100% {
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(25, 135, 84, 0);
   }
 }
 
-/* Trading Widget */
+/* ── Trading Widget ── */
 .trading-widget .btn-group .btn {
   padding: 0.5rem 1.5rem;
 }
 
-/* Responsive */
+/* ── Sidebar Overlay Backdrop (mobile) ── */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 99;
+  backdrop-filter: blur(2px);
+}
+
+/* ══════════════════════════════════════════════
+   Responsive — Mobile (< 768px)
+   ══════════════════════════════════════════════ */
 @media (max-width: 767.98px) {
+
+  /* Sidebar slides in from left */
   .sidebar {
-    position: static;
-    height: auto;
-    padding-top: 0;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    transform: translateX(-100%);
+    z-index: 200;
+    padding-top: 1rem;
+    background-color: #f8f9fa;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
   }
-  
+
+  .sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+
+  /* Full-width main content on mobile */
   main {
+    margin-left: 0 !important;
+    width: 100% !important;
     padding-left: 1rem;
     padding-right: 1rem;
   }
-  
+
   .display-4 {
     font-size: 2rem;
   }
-  
+
   .btn-lg {
     padding: 0.5rem 1rem;
   }
+
+  /* ── Holdings Card View ── */
+  .holdings-card {
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 1rem;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .holdings-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  .holdings-card .card-header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #fff;
+    padding: 0.75rem 1rem;
+  }
+
+  .holdings-card .metric-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .holdings-card .metric-item {
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background: #f8f9fa;
+  }
+
+  .holdings-card .metric-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+  }
+
+  .holdings-card .metric-value {
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
 }
 
-/* Animation for success/error messages */
+/* ── Sentiment Badge ── */
+.sentiment-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 0.2em 0.55em;
+  border-radius: 0.35rem;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.sentiment-positive {
+  background-color: rgba(25, 135, 84, 0.15);
+  color: #198754;
+}
+
+.sentiment-neutral {
+  background-color: rgba(255, 193, 7, 0.2);
+  color: #997404;
+}
+
+.sentiment-negative {
+  background-color: rgba(220, 53, 69, 0.15);
+  color: #dc3545;
+}
+
+.sentiment-loading {
+  background-color: rgba(108, 117, 125, 0.1);
+  color: #6c757d;
+}
+
+/* ── Alert animation ── */
 @keyframes slideIn {
   from {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -125,7 +237,7 @@ main {
   animation: slideIn 0.3s ease-out;
 }
 
-/* Progress bar */
+/* ── Progress bar ── */
 .progress {
   background-color: #e9ecef;
   border-radius: 10px;
@@ -135,7 +247,7 @@ main {
   border-radius: 10px;
 }
 
-/* Hover effects */
+/* ── Hover effects ── */
 .hover-pointer {
   cursor: pointer;
   transition: background-color 0.2s;

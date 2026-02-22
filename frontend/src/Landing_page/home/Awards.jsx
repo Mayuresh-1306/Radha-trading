@@ -1,49 +1,54 @@
 import React from 'react';
 
 function Awards() {
-    return ( 
-       <div className='container mt-5'>
-        <div className='row'>
-            <div className='col-5 p-5' >
-                <img src='media/largestBroker.svg' alt='Award Image' />
-            </div>
-             <div className='col-7 p-5 mt-5'>
-                <h1>Largest stock broker in India </h1>
-                <p className='mb-5'>2+ million Norodha clients contribute to over 15% of all retail order volumes in India daily by trading and investing in:</p>
-               <div className='row'>
-                <div className='col-6'>
-                     <ul>
-                    <li>
-                        <p>Futures and Options</p>
-                    </li>
-                     <li>
-                        <p>Commodity derivatives</p>
-                    </li>
-                     <li>
-                        <p>Currency derivatives</p>
-                    </li>
-                   </ul>
-                </div>
-                <div className='col-6'>
-                     <ul>
-                    <li>
-                        <p>Stocks and IPOs</p>
-                    </li>
-                     <li>
-                        <p>Direct mutual funds</p>
-                    </li>
-                     <li>
-                        <p>Bonds and Growth</p>
-                    </li>
-                   </ul>
-                </div>
-                </div>
-                <img src='media/pressLogos.png' style={{width:"90%"}} />
-                 </div>
-        </div>
+    const tradingOptions = [
+        { icon: "fas fa-chart-bar", title: "Futures & Options", desc: "Trade F&O with flat ₹20 per order" },
+        { icon: "fas fa-coins", title: "Commodity Derivatives", desc: "MCX and NCDEX trading available" },
+        { icon: "fas fa-globe", title: "Currency Derivatives", desc: "Trade forex pairs seamlessly" },
+        { icon: "fas fa-building", title: "Stocks & IPOs", desc: "Zero brokerage on equity delivery" },
+        { icon: "fas fa-hand-holding-usd", title: "Direct Mutual Funds", desc: "Commission-free MF investments" },
+        { icon: "fas fa-seedling", title: "Bonds & Growth", desc: "Fixed income for steady returns" }
+    ];
 
-       </div>
-     );
+    return (
+        <section className="awards-section py-5">
+            <div className="container">
+                <div className="row align-items-center">
+                    <div className="col-lg-5 mb-4 mb-lg-0 text-center">
+                        <div className="awards-image-wrapper">
+                            <img src='media/largestBroker.svg' alt='Award — Largest Broker' className="awards-image" />
+                        </div>
+                    </div>
+                    <div className="col-lg-7">
+                        <h2 className="section-title mb-2">
+                            Largest Stock Broker in India
+                        </h2>
+                        <p className="section-subtitle mb-4">
+                            2+ million clients contribute to over 15% of all retail order volumes in India daily by trading and investing in:
+                        </p>
+                        <div className="row g-3">
+                            {tradingOptions.map((opt, i) => (
+                                <div className="col-md-6" key={i}>
+                                    <div className="trading-option-card">
+                                        <div className="option-icon">
+                                            <i className={opt.icon}></i>
+                                        </div>
+                                        <div>
+                                            <h6 className="mb-1">{opt.title}</h6>
+                                            <small className="text-muted">{opt.desc}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        <div className="mt-4">
+                            <img src='media/pressLogos.png' alt="Press logos" className="press-logos" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
 }
 
 export default Awards;

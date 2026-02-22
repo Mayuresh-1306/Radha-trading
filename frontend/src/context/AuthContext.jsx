@@ -6,13 +6,13 @@ export const AuthContextProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [isInitialized, setIsInitialized] = useState(false);
-  
+
   // Trading state
   const [portfolio, setPortfolio] = useState([]);
   const [orders, setOrders] = useState([]);
   const [holdings, setHoldings] = useState([]);
   const [transactions, setTransactions] = useState([]);
-  const [funds, setFunds] = useState(50000); // Starting balance
+  const [funds, setFunds] = useState(500000); // Starting balance ₹5,00,000
   const [lastUpdate, setLastUpdate] = useState(new Date());
 
   useEffect(() => {
@@ -23,12 +23,12 @@ export const AuthContextProvider = ({ children }) => {
     const savedOrders = localStorage.getItem("orders");
     const savedHoldings = localStorage.getItem("holdings");
     const savedFunds = localStorage.getItem("funds");
-    
+
     if (token && userData) {
       try {
         setUser(JSON.parse(userData));
         setIsLoggedIn(true);
-        
+
         // Load saved trading data
         if (savedPortfolio) setPortfolio(JSON.parse(savedPortfolio));
         if (savedOrders) setOrders(JSON.parse(savedOrders));
@@ -42,7 +42,7 @@ export const AuthContextProvider = ({ children }) => {
       // Initialize with sample data for new users
       initializeSampleData();
     }
-    
+
     setIsInitialized(true);
   }, []);
 
@@ -64,14 +64,14 @@ export const AuthContextProvider = ({ children }) => {
     localStorage.removeItem("holdings");
     localStorage.removeItem("funds");
     localStorage.removeItem("transactions");
-    
+
     setIsLoggedIn(false);
     setUser(null);
     setPortfolio([]);
     setOrders([]);
     setHoldings([]);
     setTransactions([]);
-    setFunds(50000);
+    setFunds(500000);
   };
 
   const login = (token, userData) => {
@@ -95,29 +95,29 @@ export const AuthContextProvider = ({ children }) => {
       timestamp: new Date().toISOString(),
       status: 'executed'
     };
-    
+
     // Update orders
     setOrders(prev => [newOrder, ...prev]);
-    
+
     // Update holdings based on order
     if (order.type === 'buy') {
       // Deduct funds
       const totalCost = order.quantity * order.price;
       setFunds(prev => prev - totalCost);
-      
+
       // Update holdings
       const existingHolding = holdings.find(h => h.symbol === order.symbol);
       if (existingHolding) {
-        setHoldings(prev => prev.map(h => 
-          h.symbol === order.symbol 
-            ? { 
-                ...h, 
-                quantity: h.quantity + order.quantity,
-                avgPrice: ((h.avgPrice * h.quantity) + (order.price * order.quantity)) / (h.quantity + order.quantity),
-                investment: h.investment + totalCost,
-                currentPrice: order.price,
-                currentValue: (h.quantity + order.quantity) * order.price
-              }
+        setHoldings(prev => prev.map(h =>
+          h.symbol === order.symbol
+            ? {
+              ...h,
+              quantity: h.quantity + order.quantity,
+              avgPrice: ((h.avgPrice * h.quantity) + (order.price * order.quantity)) / (h.quantity + order.quantity),
+              investment: h.investment + totalCost,
+              currentPrice: order.price,
+              currentValue: (h.quantity + order.quantity) * order.price
+            }
             : h
         ));
       } else {
@@ -137,7 +137,7 @@ export const AuthContextProvider = ({ children }) => {
       // Add funds
       const totalValue = order.quantity * order.price;
       setFunds(prev => prev + totalValue);
-      
+
       // Update holdings
       const existingHolding = holdings.find(h => h.symbol === order.symbol);
       if (existingHolding) {
@@ -146,20 +146,20 @@ export const AuthContextProvider = ({ children }) => {
           // Remove holding if quantity is 0
           setHoldings(prev => prev.filter(h => h.symbol !== order.symbol));
         } else {
-          setHoldings(prev => prev.map(h => 
-            h.symbol === order.symbol 
-              ? { 
-                  ...h, 
-                  quantity: newQuantity,
-                  investment: h.avgPrice * newQuantity,
-                  currentValue: newQuantity * h.currentPrice
-                }
+          setHoldings(prev => prev.map(h =>
+            h.symbol === order.symbol
+              ? {
+                ...h,
+                quantity: newQuantity,
+                investment: h.avgPrice * newQuantity,
+                currentValue: newQuantity * h.currentPrice
+              }
               : h
           ));
         }
       }
     }
-    
+
     // Add to transactions
     const transaction = {
       id: Date.now(),
@@ -171,10 +171,10 @@ export const AuthContextProvider = ({ children }) => {
       total: order.quantity * order.price,
       timestamp: new Date().toISOString()
     };
-    
+
     setTransactions(prev => [transaction, ...prev]);
     setLastUpdate(new Date());
-    
+
     return newOrder;
   };
 
@@ -183,7 +183,7 @@ export const AuthContextProvider = ({ children }) => {
     const totalCurrentValue = holdings.reduce((sum, h) => sum + (h.currentPrice * h.quantity), 0);
     const totalPnl = totalCurrentValue - totalInvestment;
     const pnlPercentage = totalInvestment > 0 ? (totalPnl / totalInvestment) * 100 : 0;
-    
+
     return {
       totalInvestment,
       totalCurrentValue,
@@ -201,7 +201,7 @@ export const AuthContextProvider = ({ children }) => {
       const currentValue = newPrice * holding.quantity;
       const pnl = currentValue - holding.investment;
       const pnlPercentage = holding.investment > 0 ? (pnl / holding.investment) * 100 : 0;
-      
+
       return {
         ...holding,
         currentPrice: parseFloat(newPrice.toFixed(2)),
@@ -250,7 +250,7 @@ export const AuthContextProvider = ({ children }) => {
         pnlPercentage: 2.43
       }
     ];
-    
+
     const sampleOrders = [
       {
         id: 1,
@@ -286,10 +286,10 @@ export const AuthContextProvider = ({ children }) => {
         status: 'executed'
       }
     ];
-    
+
     setHoldings(sampleHoldings);
     setOrders(sampleOrders);
-    setFunds(50000 - (24505.00 + 48753.75 + 35518.75));
+    setFunds(500000 - (24505.00 + 48753.75 + 35518.75));
   };
 
   return (

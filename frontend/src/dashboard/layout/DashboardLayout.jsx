@@ -1,15 +1,17 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
-import LiveUpdate from '../components/LiveUpdate';
 
 const DashboardLayout = ({ children }) => {
-  const { user, logout, getPortfolioStats } = useContext(AuthContext);
+  const { user, logout, getPortfolioStats, funds } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const userInfo = user ? (typeof user === 'string' ? JSON.parse(user) : user) : null;
   const stats = getPortfolioStats();
+  const userName = userInfo?.name || 'User';
+  const userInitials = userName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
 
   const menuItems = [
     { path: '/dashboard', icon: 'fas fa-tachometer-alt', label: 'Overview' },
@@ -21,32 +23,58 @@ const DashboardLayout = ({ children }) => {
     { path: '/dashboard/profile', icon: 'fas fa-user-cog', label: 'Profile' },
   ];
 
+  const toggleSidebar = () => setSidebarOpen((prev) => !prev);
+  const closeSidebar = () => setSidebarOpen(false);
+
   return (
     <div className="dashboard-container">
-      {/* Top Navigation Bar */}
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container-fluid">
-          <Link className="navbar-brand" to="/dashboard">
-            <i className="fas fa-tachometer-alt me-2"></i>
-            Trading Dashboard
-          </Link>
-          
+      {/* ── Premium Top Navigation Bar ── */}
+      <nav className="dash-topbar">
+        <div className="container-fluid d-flex align-items-center justify-content-between">
           <div className="d-flex align-items-center">
-            <LiveUpdate />
-            {/* User Info */}
-            <div className="dropdown ms-3">
-              <button 
-                className="btn btn-outline-light btn-sm dropdown-toggle d-flex align-items-center"
+            {/* Hamburger — mobile only */}
+            <button
+              className="btn btn-topbar-toggle d-md-none me-2"
+              onClick={toggleSidebar}
+              aria-label="Toggle sidebar"
+            >
+              <i className={`fas ${sidebarOpen ? 'fa-times' : 'fa-bars'}`}></i>
+            </button>
+
+            <Link className="dash-brand" to="/dashboard">
+              <div className="brand-icon">
+                <i className="fas fa-chart-line"></i>
+              </div>
+              <span className="brand-text">Radha Trading</span>
+            </Link>
+          </div>
+
+          <div className="d-flex align-items-center gap-3">
+            {/* Funds quick display */}
+            <div className="topbar-funds d-none d-md-flex">
+              <i className="fas fa-wallet me-2"></i>
+              <span>₹{funds.toLocaleString('en-IN')}</span>
+            </div>
+
+            {/* Market status */}
+            <div className="topbar-market-status d-none d-lg-flex">
+              <div className="market-dot"></div>
+              <span>Market Open</span>
+            </div>
+
+            {/* User Dropdown */}
+            <div className="dropdown">
+              <button
+                className="btn dash-user-btn dropdown-toggle"
                 type="button"
                 data-bs-toggle="dropdown"
               >
-                <div className="rounded-circle bg-primary d-flex align-items-center justify-content-center me-2" 
-                     style={{ width: '30px', height: '30px' }}>
-                  <i className="fas fa-user text-white"></i>
+                <div className="user-avatar-circle">
+                  {userInitials}
                 </div>
-                <span>{userInfo?.name || 'User'}</span>
+                <span className="d-none d-sm-inline ms-2">{userName}</span>
               </button>
-              <ul className="dropdown-menu dropdown-menu-end">
+              <ul className="dropdown-menu dropdown-menu-end dash-dropdown">
                 <li>
                   <div className="dropdown-item-text">
                     <small className="text-muted">Account No.</small>
@@ -56,21 +84,18 @@ const DashboardLayout = ({ children }) => {
                 <li><hr className="dropdown-divider" /></li>
                 <li>
                   <Link className="dropdown-item" to="/dashboard/profile">
-                    <i className="fas fa-user me-2"></i>
-                    Profile Settings
+                    <i className="fas fa-user me-2"></i> Profile Settings
                   </Link>
                 </li>
                 <li>
                   <button className="dropdown-item" onClick={() => navigate('/')}>
-                    <i className="fas fa-home me-2"></i>
-                    Back to Home
+                    <i className="fas fa-home me-2"></i> Back to Home
                   </button>
                 </li>
                 <li><hr className="dropdown-divider" /></li>
                 <li>
                   <button className="dropdown-item text-danger" onClick={logout}>
-                    <i className="fas fa-sign-out-alt me-2"></i>
-                    Logout
+                    <i className="fas fa-sign-out-alt me-2"></i> Logout
                   </button>
                 </li>
               </ul>
@@ -79,41 +104,55 @@ const DashboardLayout = ({ children }) => {
         </div>
       </nav>
 
+      {/* ── Sidebar backdrop (mobile only) ── */}
+      {sidebarOpen && (
+        <div className="sidebar-overlay" onClick={closeSidebar}></div>
+      )}
+
       <div className="container-fluid">
         <div className="row">
-          {/* Sidebar */}
-          <div className="col-lg-2 col-md-3 d-none d-md-block bg-light sidebar">
+          {/* ── Premium Sidebar ── */}
+          <div className={`col-lg-2 col-md-3 dash-sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}>
             <div className="sidebar-sticky pt-3">
               <ul className="nav flex-column">
-                {menuItems.map((item) => (
-                  <li className="nav-item mb-2" key={item.path}>
-                    <Link
-                      className={`nav-link d-flex align-items-center ${
-                        location.pathname === item.path ? 'active' : ''
-                      }`}
-                      to={item.path}
-                    >
-                      <i className={`${item.icon} me-3`}></i>
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
+                {menuItems.map((item) => {
+                  const isActive = location.pathname === item.path;
+                  return (
+                    <li className="nav-item mb-1" key={item.path}>
+                      <Link
+                        className={`dash-nav-link ${isActive ? 'active' : ''}`}
+                        to={item.path}
+                        onClick={closeSidebar}
+                      >
+                        {isActive && <div className="nav-active-indicator"></div>}
+                        <i className={`${item.icon} nav-icon`}></i>
+                        <span>{item.label}</span>
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
 
               {/* Quick Stats in Sidebar */}
-              <div className="mt-5 p-3 bg-white rounded shadow-sm">
-                <h6 className="text-muted mb-3">Quick Stats</h6>
-                <div className="mb-2">
-                  <small className="text-muted">Portfolio Value</small>
-                  <div className="h5 fw-bold text-success">₹{stats.totalCurrentValue.toLocaleString('en-IN')}</div>
+              <div className="sidebar-stats-card mt-4">
+                <h6 className="stats-card-title">
+                  <i className="fas fa-chart-pie me-2"></i>Quick Stats
+                </h6>
+                <div className="stat-row">
+                  <small>Portfolio Value</small>
+                  <div className="stat-value text-success">
+                    ₹{stats.totalCurrentValue.toLocaleString('en-IN')}
+                  </div>
                 </div>
-                <div className="mb-2">
-                  <small className="text-muted">Today's P&L</small>
-                  <div className="h6 fw-bold text-primary">₹{stats.totalPnl.toFixed(2)}</div>
+                <div className="stat-row">
+                  <small>Today's P&L</small>
+                  <div className={`stat-value ${stats.totalPnl >= 0 ? 'text-success' : 'text-danger'}`}>
+                    {stats.totalPnl >= 0 ? '+' : ''}₹{stats.totalPnl.toFixed(2)}
+                  </div>
                 </div>
-                <div className="mb-0">
-                  <small className="text-muted">Available Funds</small>
-                  <div className="h6 fw-bold">₹{stats.availableFunds.toLocaleString('en-IN')}</div>
+                <div className="stat-row">
+                  <small>Available Funds</small>
+                  <div className="stat-value">₹{stats.availableFunds.toLocaleString('en-IN')}</div>
                 </div>
               </div>
             </div>

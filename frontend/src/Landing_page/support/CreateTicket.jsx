@@ -1,81 +1,112 @@
 import React from 'react';
 
 function CreateTickets() {
-    return ( 
-        <div className="container">
-        <div className="row p-5 mt-2 mb-2">
-            <h1 className="fs-2 ">
-               To create a ticket, select a relevant topic
-            </h1>
-             
-              <div className="col-4 p-5 mt-2 mb-2">
-            <h4 className="fs-2 ">
-            <i class="fa-solid fa-plus"></i>  Account Opening
-            </h4>
-            <a href="" >Resident individual </a> <br />
-            <a href="" >Minor </a>  <br />
-            <a href="" >Non Resident Indian (NRI) </a>  <br />
-            <a href="" >Company, Partnership, HUF and LLP </a>  <br />
-            <a href="" >Glossary </a>
-             </div>
-           <div className="col-4  mt-2 mb-2">
-            <h1 className="fs-2 ">
-            <br />  Radha Account
-            </h1>
-            <a href="" >Your Profile </a> <br />
-            <a href="" >Account modification </a>  <br />
-            <a href="" >Client Master Report (CMR) and Depository Participant (DP) </a>  <br />
-            <a href="" >Nomination </a>  <br />
-            <a href="" >Transfer and conversion of securities</a>
-             </div>
-              <div className="col-4 p-5 mt-2 mb-2">
-            <h1 className="fs-2 ">
-               Kite
-            </h1>
-            <a href="" >IPO </a> <br />
-            <a href="" >Trading FAQs </a>  <br />
-            <a href="" >Margin Trading Facility (MTF) and Margins</a>  <br />
-            <a href="" >Charts and orders </a>  <br />
-            <a href="" >Alerts and Nudges</a>
-             <a href="" >General</a>
-             </div>
-              <div className="col-4 p-5 mt-2 mb-2">
-            <h4 className="fs-2 ">
-           <i class="fa-regular fa-envelope"></i>  Funds
-            </h4>
-            <a href="" >Add money </a> <br />
-            <a href="" >Withdraw money </a>  <br />
-            <a href="" >Add bank accounts</a>  <br />
-            <a href="" >eMandates </a>  <br />
-           
-             </div>
-           <div className="col-4  mt-2 mb-2">
-            <h1 className="fs-2 ">
-            <br />  Console
-            </h1>
-            <a href="" >Portfolio</a> <br />
-            <a href="" >Corporate actions </a>  <br />
-            <a href="" >Funds statement </a>  <br />
-            <a href="" >Reports </a>  <br />
-            <a href="" >Profile</a>
-             <a href="" >Segments</a>
-             </div>
-              <div className="col-4 p-5 mt-2 mb-2">
-            <h1 className="fs-2 ">
-              Coin
-            </h1>
-            <a href="" >Mutual funds </a> <br />
-            <a href="" >National Pension Scheme (NPS)</a>  <br />
-            <a href="" >Features on Coin</a>  <br />
-            <a href="" >Payments and Orders </a>  <br />
-            <a href="" >General</a>
-             
-             </div>
-            
-             </div>
+  const topics = [
+    {
+      icon: 'fas fa-user-plus',
+      title: 'Account Opening',
+      color: '#667eea',
+      links: ['Resident Individual', 'Minor', 'Non Resident Indian (NRI)', 'Company, Partnership, HUF, LLP', 'Glossary'],
+    },
+    {
+      icon: 'fas fa-building',
+      title: 'Radha Account',
+      color: '#8b5cf6',
+      links: ['Your Profile', 'Account Modification', 'Client Master Report (CMR) & DP', 'Nomination', 'Transfer & Conversion of Securities'],
+    },
+    {
+      icon: 'fas fa-chart-line',
+      title: 'Trading Platform',
+      color: '#10b981',
+      links: ['IPO', 'Trading FAQs', 'Margin Trading Facility (MTF)', 'Charts & Orders', 'Alerts & Nudges'],
+    },
+    {
+      icon: 'fas fa-wallet',
+      title: 'Funds',
+      color: '#f59e0b',
+      links: ['Add Money', 'Withdraw Money', 'Add Bank Accounts', 'eMandates', 'Payment Issues'],
+    },
+    {
+      icon: 'fas fa-desktop',
+      title: 'Console',
+      color: '#3b82f6',
+      links: ['Portfolio', 'Corporate Actions', 'Funds Statement', 'Reports', 'Profile & Segments'],
+    },
+    {
+      icon: 'fas fa-coins',
+      title: 'Mutual Funds',
+      color: '#ec4899',
+      links: ['Mutual Fund Orders', 'National Pension Scheme (NPS)', 'Features on Coin', 'Payments & Redemption', 'General'],
+    },
+  ];
+
+  return (
+    <section className="support-topics-section py-5">
+      <div className="container">
+        <div className="text-center mb-5">
+          <h2 className="section-title">Create a Support Ticket</h2>
+          <p className="text-muted">Select a relevant topic to get started</p>
+        </div>
+
+        <div className="row g-4">
+          {topics.map((topic, i) => (
+            <div className="col-md-6 col-lg-4" key={i}>
+              <div className="support-topic-card">
+                <div className="topic-card-header">
+                  <div className="topic-icon-circle" style={{ background: `${topic.color}15`, color: topic.color }}>
+                    <i className={topic.icon}></i>
+                  </div>
+                  <h5 className="mb-0 fw-bold">{topic.title}</h5>
+                </div>
+                <div className="topic-links">
+                  {topic.links.map((link, j) => (
+                    <a href="#" className="topic-link" key={j}>
+                      <i className="fas fa-chevron-right me-2" style={{ fontSize: '0.6rem', color: topic.color }}></i>
+                      {link}
+                    </a>
+                  ))}
+                </div>
               </div>
-               
-     );
+            </div>
+          ))}
+        </div>
+
+        {/* Contact Section */}
+        <div className="row g-4 mt-5">
+          <div className="col-md-4">
+            <div className="contact-method-card text-center">
+              <div className="contact-icon-circle">
+                <i className="fas fa-phone"></i>
+              </div>
+              <h6 className="fw-bold mt-3">Call Us</h6>
+              <p className="text-muted small mb-2">Mon–Sat, 9AM–6PM</p>
+              <a href="tel:+911234567890" className="btn btn-sm btn-outline-primary">+91 123 456 7890</a>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="contact-method-card text-center">
+              <div className="contact-icon-circle">
+                <i className="fas fa-envelope"></i>
+              </div>
+              <h6 className="fw-bold mt-3">Email Us</h6>
+              <p className="text-muted small mb-2">We respond within 2 hours</p>
+              <a href="mailto:support@radhatrading.com" className="btn btn-sm btn-outline-primary">support@radhatrading.com</a>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="contact-method-card text-center">
+              <div className="contact-icon-circle">
+                <i className="fas fa-comments"></i>
+              </div>
+              <h6 className="fw-bold mt-3">Live Chat</h6>
+              <p className="text-muted small mb-2">Available 24/7</p>
+              <button className="btn btn-sm btn-primary">Start Chat</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 export default CreateTickets;
