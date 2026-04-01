@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
-const SENTIMENT_API = 'http://localhost:8000/sentiment';
+const SENTIMENT_API = `${import.meta.env.VITE_AI_SERVICE_URL || 'http://localhost:8000'}/sentiment`;
 
 // ─────────────────────────────────────────────────────
 // Longest Increasing Subsequence — O(n²) DP

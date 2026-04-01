@@ -54,7 +54,7 @@ const Holdings = () => {
   useEffect(() => {
     if (!holdings || holdings.length === 0) return;
 
-    const SENTIMENT_API = 'http://localhost:8000/sentiment';
+    const SENTIMENT_API = `${import.meta.env.VITE_AI_SERVICE_URL || 'http://localhost:8000'}/sentiment`;
 
     holdings.forEach((h) => {
       const symbol = h.symbol || h.name;
