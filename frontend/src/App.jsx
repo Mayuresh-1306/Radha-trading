@@ -222,6 +222,15 @@ const AppRoutes = () => {
               )
             } />
             
+            {/* Login - Redirect to signup page (handles both signup and login) */}
+            <Route path="/login" element={
+              isLoggedIn ? (
+                <Navigate to="/dashboard" replace />
+              ) : (
+                <Navigate to="/signup" replace />
+              )
+            } />
+            
             {/* ===== DASHBOARD ROUTES ===== */}
             
             {/* Dashboard - Protected Route */}
